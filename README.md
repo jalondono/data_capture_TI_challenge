@@ -24,3 +24,8 @@ constant time O(1)
 * The method build_stats() can be at most linear O(n) o Apply the best practices you know
 * Share a public repo with your project
 
+# Testing
+Use the following command to run the tests:
+```
+python -m unittest discover -p '*_test.py'
+```

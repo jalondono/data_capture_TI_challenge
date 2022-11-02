@@ -4,7 +4,8 @@ from utils.decorators import validate_integer
 
 
 class DataCaptureModelClass:
-    __captured_numbers = []
+    def __init__(self) -> None:
+        self.__captured_numbers = []
 
     @validate_integer
     def add(self, value):
