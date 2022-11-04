@@ -24,7 +24,7 @@ class StatsModelTests(unittest.TestCase):
         stats = self.data_capture.build_stats()
         with self.assertRaises(Exception) as context:
             less = stats.less(-4)
-        self.assertTrue(MIN_VALUE_MESSAGE in str(context.exception))
+        self.assertTrue(NEGATIVE_RANGE_MESSAGE in str(context.exception))
 
     def test_less_invalid_value(self):
         stats = self.data_capture.build_stats()
@@ -39,8 +39,9 @@ class StatsModelTests(unittest.TestCase):
 
     def test_greater_negative(self):
         stats = self.data_capture.build_stats()
-        greater = stats.greater(-4)
-        self.assertEqual(greater, len(self.data_capture.get_values))
+        with self.assertRaises(Exception) as context:
+            greater = stats.greater(-4)
+        self.assertTrue(NEGATIVE_RANGE_MESSAGE in str(context.exception))
 
     def test_greater_invalid_value(self):
         stats = self.data_capture.build_stats()
@@ -55,8 +56,9 @@ class StatsModelTests(unittest.TestCase):
 
     def test_between_negative_range(self):
         stats = self.data_capture.build_stats()
-        between = stats.between(-6, 4)
-        self.assertEqual(between, 3)
+        with self.assertRaises(Exception) as context:
+            between = stats.between(-6, 4)
+        self.assertTrue(NEGATIVE_RANGE_MESSAGE in str(context.exception))
 
     def test_between_inverse_range(self):
         stats = self.data_capture.build_stats()

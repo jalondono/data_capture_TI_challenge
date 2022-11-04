@@ -11,12 +11,14 @@ class DataCaptureTests(unittest.TestCase):
         Test tha can be added a number using the add method from DataCaptureModelClass correctly
         """
         values_to_add = [0, 1, 2, 3, 999]
+        expected_value = {0: 1, 1: 1, 2: 1, 3: 1, 999: 1}
+
         added_values = []
         instance = DataCaptureModelClass()
         for value in values_to_add:
             instance.add(value)
 
-        self.assertListEqual(instance.get_values, values_to_add)
+        self.assertDictEqual(instance.get_values, expected_value)
 
     def test_add_invalid_value_fail(self):
         """
