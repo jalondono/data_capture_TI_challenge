@@ -20,10 +20,10 @@ class DataCaptureModelClass:
         self.__captured_numbers[value] += 1
         return self.__captured_numbers
 
-    def build_stats(self):
+    def build_stats(self) -> StatsModelClass:
         """
         build the stats
-        :return:
+        :return: StatsModelClass instance
         """
         count = 0
 
