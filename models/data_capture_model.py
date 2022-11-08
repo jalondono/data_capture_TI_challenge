@@ -1,24 +1,23 @@
 from models.stats_model import StatsModelClass
 from utils.constants import *
 from utils.decorators import validate_integer
+from collections import defaultdict
 
 
 class DataCaptureModelClass:
     def __init__(self) -> None:
-        self.__captured_numbers = {}
+        # Defining the dict
+        self.__captured_numbers = defaultdict(lambda: 0)
 
     @validate_integer
-    def add(self, value):
+    def add(self, value) -> dict:
         """
         Add a new value to the list of values
         :param value: new value to add
-        :return: List of values
+        :return: Dict of values
         """
         assert MIN_VALUE <= value <= MAX_VALUE, OUT_RANGE_MESSAGE
-        if value not in self.__captured_numbers:
-            self.__captured_numbers[value] = 1
-        else:
-            self.__captured_numbers[value] += 1
+        self.__captured_numbers[value] += 1
         return self.__captured_numbers
 
     def build_stats(self):
@@ -26,13 +25,20 @@ class DataCaptureModelClass:
         build the stats
         :return:
         """
-        indexed_captured_numbers = {}
         count = 0
-        for key in sorted(self.__captured_numbers.keys()):
-            indexed_captured_numbers[key] = {
-                COUNT: count
-            }
-            count += self.__captured_numbers[key]
+
+        # Initialize the indexed dictionaries with all the indexes
+        indexed_captured_numbers = defaultdict(
+            dict, {k: {LESS_COUNT: 0, GRATER_COUNT: 0} for k in range(MIN_VALUE, MAX_VALUE)}
+        )
+
+        for key in indexed_captured_numbers.keys():
+            capture_number = self.__captured_numbers.get(key)
+            if capture_number:
+                indexed_captured_numbers[key] = {GRATER_COUNT: count + 1, LESS_COUNT: count}
+                count += capture_number
+            else:
+                indexed_captured_numbers[key] = {GRATER_COUNT: count, LESS_COUNT: count}
         return StatsModelClass(indexed_captured_numbers, count)
 
     @property

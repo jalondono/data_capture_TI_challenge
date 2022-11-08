@@ -16,7 +16,7 @@ class StatsModelClass:
         :return: count
         """
         assert value > MIN_VALUE, MIN_VALUE_MESSAGE
-        return self.indexed_captured_numbers[value][COUNT]
+        return self.indexed_captured_numbers[value][LESS_COUNT]
 
     @validate_integer
     @validate_positive_integer
@@ -28,7 +28,7 @@ class StatsModelClass:
         :return: count
         """
         assert left <= right, INVALID_RANGE_MESSAGE
-        return self.indexed_captured_numbers[right][COUNT] - self.indexed_captured_numbers[left][COUNT] + 1
+        return self.indexed_captured_numbers[right][GRATER_COUNT] - self.indexed_captured_numbers[left][LESS_COUNT]
 
     @validate_integer
     @validate_positive_integer
@@ -39,5 +39,4 @@ class StatsModelClass:
         :return: count
         """
         assert value < MAX_VALUE, MAX_VALUE_MESSAGE
-
-        return self.count - self.indexed_captured_numbers[value][COUNT] - 1
+        return self.count - self.indexed_captured_numbers[value][GRATER_COUNT]

@@ -32,6 +32,14 @@ class StatsModelTests(unittest.TestCase):
             less = stats.less('x')
         self.assertTrue(VALIDATE_INTEGER_MESSAGE in str(context.exception))
 
+    def test_less_value_not_in_appended_list(self):
+        """
+        Test that can be performed a less operation with a value that hasn't been appended in the list of values
+        """
+        stats = self.data_capture.build_stats()
+        less = stats.less(5)
+        self.assertEqual(less, 3)
+
     def test_greater(self):
         stats = self.data_capture.build_stats()
         greater = stats.greater(4)
@@ -48,6 +56,17 @@ class StatsModelTests(unittest.TestCase):
         with self.assertRaises(Exception) as context:
             greater = stats.greater('x')
         self.assertTrue(VALIDATE_INTEGER_MESSAGE in str(context.exception))
+
+    def test_grater_value_not_in_appended_list(self):
+        """
+        Test that can be performed a greater operation with a value that hasn't been appended in the list of values
+        """
+        self.data_capture = DataCaptureModelClass()
+        self.data_capture.add(1)
+        self.data_capture.add(10)
+        stats = self.data_capture.build_stats()
+        greater = stats.greater(5)
+        self.assertEqual(greater, 1)
 
     def test_between(self):
         stats = self.data_capture.build_stats()
